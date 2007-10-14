@@ -245,4 +245,4 @@ let g:template['_']['xt'] = "\<c-r>=strftime(\"%Y-%m-%d %H:%M:%S\")\<cr>"
 exec "silent! runtime ".g:user_defined_snippets
 
 
-" vim: set ft=vim ff=unix fdm=marker :
+" vim: set fdm=marker :
