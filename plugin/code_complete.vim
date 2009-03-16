@@ -2,7 +2,7 @@
 " File:         code_complete.vim
 " Brief:        function parameter complete, code snippets, and much more.
 " Author:       Mingbai <mbbill AT gmail DOT com>
-" Last Change:  2007-08-17 11:44:39
+" Last Change:  2009-03-16 23:01:16
 " Version:      2.7
 "
 " Install:      1. Put code_complete.vim to plugin
@@ -50,7 +50,7 @@ if v:version < 700
     finish
 endif
 
-" Variable Definations: {{{1
+" Variable Definitions: {{{1
 " options, define them as you like in vimrc:
 if !exists("g:completekey")
     let g:completekey = "<tab>"   "hotkey
@@ -81,7 +81,7 @@ autocmd BufReadPost,BufNewFile * call CodeCompleteStart()
 menu <silent>       &Tools.Code\ Complete\ Start          :call CodeCompleteStart()<CR>
 menu <silent>       &Tools.Code\ Complete\ Stop           :call CodeCompleteStop()<CR>
 
-" Function Definations: {{{1
+" Function Definitions: {{{1
 
 function! CodeCompleteStart()
     exec "silent! iunmap  <buffer> ".g:completekey
@@ -101,7 +101,7 @@ function! FunctionComplete(fun)
     endif
     for i in ftags
         if has_key(i,'kind') && has_key(i,'name') && has_key(i,'signature')
-            if (i.kind=='p' || i.kind=='f') && i.name==a:fun  " p is declare, f is defination
+            if (i.kind=='p' || i.kind=='f') && i.name==a:fun  " p is declare, f is definition
                 if match(i.signature,'(\s*void\s*)')<0 && match(i.signature,'(\s*)')<0
                     let tmp=substitute(i.signature,',',g:re.','.g:rs,'g')
                     let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.')','g')
@@ -197,7 +197,7 @@ function! GetFileName()
     let filename=expand("%:t")
     let filename=toupper(filename)
     let _name=substitute(filename,'\.','_',"g")
-    let _name="__"._name."__"
+    "let _name="__"._name."__"
     return _name
 endfunction
 
