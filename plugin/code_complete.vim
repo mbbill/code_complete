@@ -2,8 +2,8 @@
 " File:         code_complete.vim
 " Brief:        function parameter complete, code snippets, and much more.
 " Author:       Mingbai <mbbill AT gmail DOT com>
-" Last Change:  2009-04-04 22:45:36
-" Version:      2.8
+" Last Change:  2009-04-08 09:49:51
+" Version:      2.9
 "
 " Install:      1. Put code_complete.vim to plugin
 "                  directory.
@@ -113,13 +113,13 @@ function! FunctionComplete(fun)
             else
                     let tmp=''
             endif
-		endif
-		if (tmp != '') && (index(signature_word,tmp) == -1)
-			let signature_word+=[tmp]
-			let item={}
-			let item['word']=tmp
-			let item['menu']=i.filename
-			let s:signature_list+=[item]
+			if (tmp != '') && (index(signature_word,tmp) == -1)
+				let signature_word+=[tmp]
+				let item={}
+				let item['word']=tmp
+				let item['menu']=i.filename
+				let s:signature_list+=[item]
+			endif
 		endif
         if has_key(i,'kind') && has_key(i,'name') && has_key(i,'signature')
             if (i.kind=='p' || i.kind=='f') && i.name==a:fun  " p is declare, f is definition
