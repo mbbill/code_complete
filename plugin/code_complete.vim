@@ -2,7 +2,7 @@
 " File:         code_complete.vim
 " Brief:        function parameter complete, code snippets, and much more.
 " Author:       Mingbai <mbbill AT gmail DOT com>
-" Last Change:  2009-04-08 21:49:32
+" Last Change:  2009-05-02 22:59:30
 " Version:      2.9
 "
 " Install:      1. Put code_complete.vim to plugin
@@ -99,6 +99,7 @@ function! FunctionComplete(fun)
     if type(ftags)==type(0) || ((type(ftags)==type([])) && ftags==[])
         return ''
     endif
+    let tmp=''
     for i in ftags
         if match(i.cmd,'^/\^.*\(\*'.a:fun.'\)\(.*\)\;\$/')>=0
             if match(i.cmd,'(\s*void\s*)')<0 && match(i.cmd,'(\s*)')<0
