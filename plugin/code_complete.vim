@@ -2,7 +2,7 @@
 " File:         code_complete.vim
 " Brief:        function parameter complete, code snippets, and much more.
 " Author:       Mingbai <mbbill AT gmail DOT com>
-" Last Change:  2009-05-02 22:59:30
+" Last Change:  2009-06-09 00:09:03
 " Version:      2.9
 "
 " Install:      1. Put code_complete.vim to plugin
