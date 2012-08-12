@@ -31,6 +31,9 @@
 "
 "           variables:
 "
+"               g:disable_codecomplete
+"                   Disable code_complete, default enabled.
+"
 "               g:completekey
 "                   the key used to complete function
 "                   parameters and key words.
@@ -47,6 +50,10 @@
 "==================================================
 
 if v:version < 700
+    finish
+endif
+
+if exists("g:disable_codecomplete")
     finish
 endif
 
