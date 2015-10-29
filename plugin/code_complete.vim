@@ -72,7 +72,7 @@ if !exists("g:re")
 endif
 
 if !exists("g:user_defined_snippets")
-    let g:user_defined_snippets = "$VIMRUNTIME/plugin/my_snippets.vim"
+    let g:user_defined_snippets = ""
 endif
 
 " ----------------------------
@@ -271,7 +271,8 @@ let g:template['_']['xt'] = "\<c-r>=strftime(\"%Y-%m-%d %H:%M:%S\")\<cr>"
 
 " ---------------------------------------------
 " load user defined snippets
-exec "silent! runtime ".g:user_defined_snippets
+exec "silent! runtime plugin/my_snippets.vim"
+exec "silent! source ".g:user_defined_snippets
 
 
 " vim: set fdm=marker et :
