@@ -45,6 +45,9 @@
 "               g:user_defined_snippets
 "                   file name of user defined snippets.
 "
+"               g:CodeComplete_Ignorecase
+"                   use ignore case for keywords.
+
 "           key words:
 "               see "templates" section.
 "==================================================
@@ -161,14 +164,28 @@ endfunction
 function! ExpandTemplate(cword)
     "let cword = substitute(getline('.')[:(col('.')-2)],'\zs.*\W\ze\w*$','','g')
     if has_key(g:template,&ft)
+      if ( exists('g:CodeComplete_Ignorecase') && g:CodeComplete_Ignorecase )
+        if has_key(g:template[&ft],tolower(a:cword))
+            let s:jumppos = line('.')
+            return "\<c-w>" . g:template[&ft][tolower(a:cword)]
+        endif
+      else
         if has_key(g:template[&ft],a:cword)
             let s:jumppos = line('.')
             return "\<c-w>" . g:template[&ft][a:cword]
         endif
+      endif
     endif
-    if has_key(g:template['_'],a:cword)
-        let s:jumppos = line('.')
-        return "\<c-w>" . g:template['_'][a:cword]
+    if ( exists('g:CodeComplete_Ignorecase') && g:CodeComplete_Ignorecase )
+      if has_key(g:template['_'],tolower(a:cword))
+          let s:jumppos = line('.')
+          return "\<c-w>" . g:template['_'][tolower(a:cword)]
+      endif
+    else
+      if has_key(g:template['_'],a:cword)
+          let s:jumppos = line('.')
+          return "\<c-w>" . g:template['_'][a:cword]
+      endif
     endif
     return ''
 endfunction
