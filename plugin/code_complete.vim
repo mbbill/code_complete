@@ -289,7 +289,14 @@ let g:template['_']['xt'] = "\<c-r>=strftime(\"%Y-%m-%d %H:%M:%S\")\<cr>"
 " ---------------------------------------------
 " load user defined snippets
 exec "silent! runtime plugin/my_snippets.vim"
-exec "silent! source ".g:user_defined_snippets
-
+if type(g:user_defined_snippets) == v:t_string
+  exec "silent! runtime ".g:user_defined_snippets
+  exec "silent! source ".g:user_defined_snippets
+elseif type(g:user_defined_snippets) == v:t_list
+  for snippet in g:user_defined_snippets
+    exec "silent! runtime ".snippet
+    exec "silent! source ".snippet
+  endfor
+endif
 
 " vim: set fdm=marker et :
