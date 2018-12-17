@@ -102,7 +102,7 @@ function! CodeCompleteStop()
     exec "silent! iunmap <buffer> ".g:completekey
 endfunction
 
-function! FunctionComplete(fun)
+function! FunctionComplete(fun, last_char)
     let s:signature_list=[]
     let signature_word=[]
     let ftags=taglist("^".a:fun."$")
@@ -110,6 +110,11 @@ function! FunctionComplete(fun)
         return ''
     endif
     let tmp=''
+    if a:last_char == ')'
+        let s:append_tail = ''
+    else
+        let s:append_tail = ')'
+    endif
     for i in ftags
         if match(i.cmd,'^/\^.*\(\*'.a:fun.'\)\(.*\)\;\$/')>=0
             if match(i.cmd,'(\s*void\s*)')<0 && match(i.cmd,'(\s*)')<0
@@ -120,7 +125,8 @@ function! FunctionComplete(fun)
                     let tmp=substitute(tmp,'\$\/','','')
                     let tmp=substitute(tmp,';','','')
                     let tmp=substitute(tmp,',',g:re.','.g:rs,'g')
-                    let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.')','g')
+                    " let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.')','g')
+                    let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.s:append_tail,'g')
             else
                     let tmp=''
             endif
@@ -136,7 +142,8 @@ function! FunctionComplete(fun)
             if (i.kind=='p' || i.kind=='f') && i.name==a:fun  " p is declare, f is definition
                 if match(i.signature,'(\s*void\s*)')<0 && match(i.signature,'(\s*)')<0
                     let tmp=substitute(i.signature,',',g:re.','.g:rs,'g')
-                    let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.')','g')
+                    " let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.')','g')
+                    let tmp=substitute(tmp,'(\(.*\))',g:rs.'\1'.g:re.s:append_tail,'g')
                 else
                     let tmp=''
                 endif
@@ -151,7 +158,8 @@ function! FunctionComplete(fun)
         endif
     endfor
     if s:signature_list==[]
-        return ')'
+        " return ')'
+        return s:append_tail
     endif
     if len(s:signature_list)==1
         return s:signature_list[0]['word']
@@ -222,7 +230,7 @@ function! CodeComplete()
     let s:doappend = 1
     let function_name = matchstr(getline('.')[:(col('.')-2)],'\zs\w*\ze\s*(\s*$')
     if function_name != ''
-        let funcres = FunctionComplete(function_name)
+        let funcres = FunctionComplete(function_name, getline('.')[col('.')-1])
         if funcres != ''
             let s:doappend = 0
         endif
